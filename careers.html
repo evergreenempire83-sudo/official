@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Development | EverGreen Empire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        :root {
+            --primary: #0f172a;
+            --primary-light: #1e293b;
+            --primary-dark: #020617;
+            --secondary: #64748b;
+            --accent: #0ea5e9;
+            --accent-dark: #0284c7;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --gray: #f8fafc;
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --border-radius: 16px;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 25px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            overflow-x: hidden;
+            color: var(--text);
+            background-color: var(--white);
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: var(--transition);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        header.scrolled {
+            padding: 1rem 5%;
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+            border-radius: 10px;
+            transition: var(--transition);
+            transform-origin: left;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg);
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: var(--white);
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            z-index: 999;
+            padding: 100px 30px 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-nav.active {
+            right: 0;
+        }
+
+        .mobile-nav ul {
+            list-style: none;
+        }
+
+        .mobile-nav li {
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            display: block;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .mobile-nav a:hover {
+            color: var(--accent);
+            transform: translateX(10px);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            font-size: 1rem;
+            padding: 8px 0;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+            border-radius: 2px;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Career Hero Section */
+        .career-hero {
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            margin-top: 80px;
+        }
+
+        .career-hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .career-hero-content {
+            max-width: 800px;
+            z-index: 3;
+            position: relative;
+        }
+
+        .career-hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            font-weight: 800;
+            letter-spacing: -1px;
+            opacity: 0;
+            transform: translateY(50px);
+            position: relative;
+        }
+
+        .career-hero h1::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            width: 100px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .career-hero p {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            font-weight: 400;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .cta-button {
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
+            opacity: 0;
+            transform: translateY(50px);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cta-button:hover {
+            background: var(--accent-dark);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(14, 165, 233, 0.4);
+        }
+
+        /* Animated Background Elements */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: floatElement 20s infinite linear;
+        }
+
+        @keyframes floatElement {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-1000px) rotate(360deg); }
+        }
+
+        .pulse-ring {
+            position: absolute;
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 50%;
+            animation: pulse 4s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        /* Introduction Section */
+        .intro-section {
+            padding: 8rem 5%;
+            background-color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            opacity: 0.03;
+            border-radius: 50%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        .section-title h2 {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            opacity: 0;
+            transform: translateY(30px);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            font-size: 1.3rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .intro-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .intro-content p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* Development Paths Section */
+        .paths-section {
+            padding: 8rem 5%;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .paths-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(14, 165, 233, 0.1) 0%, transparent 50%);
+        }
+
+        .paths-section .section-title h2 {
+            color: var(--white);
+        }
+
+        .paths-section .section-title p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .paths-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .path-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius);
+            padding: 4rem 3rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .path-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .path-card:hover {
+            transform: translateY(-15px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .path-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .path-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2.5rem;
+            color: var(--white);
+            font-size: 2.5rem;
+            box-shadow: 0 15px 35px rgba(14, 165, 233, 0.3);
+            transition: var(--transition);
+        }
+
+        .path-card:hover .path-icon {
+            transform: scale(1.1);
+            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.4);
+        }
+
+        .path-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .path-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .path-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+
+        .path-list li {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .path-list li::before {
+            content: '•';
+            color: var(--accent);
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+        }
+
+        .path-tagline {
+            font-style: italic;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--accent);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Values Section */
+        .values-section {
+            padding: 8rem 5%;
+            background-color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .values-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            opacity: 0.03;
+            border-radius: 50%;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .value-item {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .value-item:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent);
+        }
+
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            color: var(--white);
+            font-size: 2rem;
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.3);
+        }
+
+        .value-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .value-item p {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 8rem 5%;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.1) 0%, transparent 50%);
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-content h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            font-weight: 700;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .cta-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--white);
+            padding: 6rem 5% 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.1) 0%, transparent 50%);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 4rem;
+            margin-bottom: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 15px;
+            color: var(--white);
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-column a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent);
+            padding-left: 10px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            transition: var(--transition);
+            color: var(--white);
+            font-size: 1.3rem;
+        }
+
+        .social-icons a:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.3);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 1200px) {
+            .career-hero h1 {
+                font-size: 3.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .career-hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.5rem;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 5%;
+            }
+            
+            .career-hero {
+                text-align: center;
+                height: auto;
+                padding: 120px 5% 80px;
+            }
+            
+            .career-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .career-hero p {
+                font-size: 1.2rem;
+            }
+            
+            .paths-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .intro-section, .paths-section, .values-section, .cta-section {
+                padding: 6rem 5%;
+            }
+
+            .section-title {
+                margin-bottom: 4rem;
+            }
+
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+
+            .section-title p {
+                font-size: 1.1rem;
+            }
+
+            .path-card {
+                padding: 3rem 2rem;
+            }
+
+            .value-item {
+                padding: 2rem 1.5rem;
+            }
+
+            .cta-content h2 {
+                font-size: 2.2rem;
+            }
+
+            .cta-content p {
+                font-size: 1.1rem;
+            }
+
+            .footer-content {
+                gap: 3rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .career-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .career-hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .path-card h3 {
+                font-size: 1.5rem;
+            }
+
+            .path-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+
+            .value-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-column h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .social-icons {
+                justify-content: center;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .career-hero h1 {
+                font-size: 2rem;
+            }
+
+            .career-hero p {
+                font-size: 1rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+
+            .path-card h3 {
+                font-size: 1.4rem;
+            }
+
+            .value-item h3 {
+                font-size: 1.3rem;
+            }
+
+            .cta-content h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .path-card:hover,
+            .value-item:hover {
+                transform: none;
+            }
+
+            .path-card:hover .path-icon {
+                transform: none;
+            }
+
+            .social-icons a:hover {
+                transform: none;
+            }
+
+            /* Add tap feedback */
+            .path-card:active,
+            .value-item:active {
+                transform: scale(0.98);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <a href="index.html" class="logo">EVERGREEN EMPIRE</a>
+        
+        <!-- Desktop Navigation -->
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="career-development.html" class="active">Career Development</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="index.html" onclick="closeMobileMenu()">Home</a></li>
+            <li><a href="about.html" onclick="closeMobileMenu()">About</a></li>
+            <li><a href="career-development.html" onclick="closeMobileMenu()" class="active">Career Development</a></li>
+            <li><a href="contact.html" onclick="closeMobileMenu()">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Career Hero Section -->
+    <section class="career-hero">
+        <div class="career-hero-background" id="careerHeroBackground"></div>
+        <div class="floating-elements" id="floatingElements"></div>
+        <div class="career-hero-content">
+            <h1 class="career-hero-title">Career Development</h1>
+            <p class="career-hero-subtitle">Where ambition finds direction. Build a lasting career with clarity, growth and long-term value.</p>
+            <button class="cta-button">
+                Explore Opportunities <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="intro-section">
+        <div class="section-title">
+            <h2>Our Career Ecosystem</h2>
+            <p>Designed for creators, digital talents and upcoming executives</p>
+        </div>
+        <div class="intro-content">
+            <p>Career development at EverGreen Empire is built on clarity, growth and long-term value. Our ecosystem is designed to support creators, digital talents and upcoming executives through real opportunities that help them rise.</p>
+            <p>Everything we build is intentional: EverNet rewards creators, EverHub amplifies voices, and the entire Empire strengthens every individual inside the system.</p>
+        </div>
+    </section>
+
+    <!-- Development Paths Section -->
+    <section class="paths-section">
+        <div class="section-title">
+            <h2>Career Development Paths</h2>
+            <p>Multiple pathways to grow and succeed in the creative economy</p>
+        </div>
+        <div class="paths-grid">
+            <!-- Creative Growth for Artists and Producers -->
+            <div class="path-card">
+                <div class="path-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <h3>Creative Growth for Artists and Producers</h3>
+                <p>We help creators build a strong, lasting career through structure and discipline.</p>
+                <ul class="path-list">
+                    <li>Global music distribution planning</li>
+                    <li>Content ID monetization strategy</li>
+                    <li>Catalog building and versioning</li>
+                    <li>Visual identity and metadata structure</li>
+                    <li>Artistic consistency and direction</li>
+                </ul>
+                <p class="path-tagline">Artists grow under a system that protects their work and multiplies their impact.</p>
+            </div>
+
+            <!-- Creator Reward and Influence Development -->
+            <div class="path-card">
+                <div class="path-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h3>Creator Reward & Influence Development</h3>
+                <p>EverNet is the reward engine for creators who use EverGreen sounds.</p>
+                <ul class="path-list">
+                    <li>Access to EverGreen's sound catalog</li>
+                    <li>Performance-based payouts</li>
+                    <li>Tools for analyzing audience reach</li>
+                    <li>Personal support for content improvement</li>
+                    <li>A steady path for creators to grow in the digital space</li>
+                </ul>
+                <p class="path-tagline">Creators create. We track. We reward. Everyone rises.</p>
+            </div>
+
+            <!-- Media, Storytelling and Visibility -->
+            <div class="path-card">
+                <div class="path-icon">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
+                <h3>Media, Storytelling & Visibility</h3>
+                <p>EverHub is the media heart of EverGreen Empire where stories are told and creators gain visibility.</p>
+                <ul class="path-list">
+                    <li>Music industry news</li>
+                    <li>Entertainment updates</li>
+                    <li>Artist spotlights</li>
+                    <li>Feature stories and interviews</li>
+                    <li>Educational articles for creators</li>
+                    <li>Culture and digital trends</li>
+                    <li>Evergreen Empire official updates</li>
+                </ul>
+                <p class="path-tagline">EverHub builds the voice of the empire and gives artists a platform to be seen.</p>
+            </div>
+
+            <!-- Leadership and Operational Development -->
+            <div class="path-card">
+                <div class="path-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Leadership & Operational Development</h3>
+                <p>We develop the next generation of operational minds who understand structure, discipline and long-term strategy.</p>
+                <ul class="path-list">
+                    <li>A&R support and talent discovery</li>
+                    <li>Digital distribution operations</li>
+                    <li>Catalog organization</li>
+                    <li>Data handling and reporting</li>
+                    <li>Admin support and communication</li>
+                    <li>Platform management (EverNet and EverHub)</li>
+                </ul>
+                <p class="path-tagline">EverGreen builds leaders who understand structure, discipline and long-term strategy.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values-section">
+        <div class="section-title">
+            <h2>Values That Shape Every Career</h2>
+            <p>The principles that guide growth and success at EverGreen Empire</p>
+        </div>
+        <div class="values-grid">
+            <div class="value-item">
+                <div class="value-icon">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <h3>Ownership Mindset</h3>
+                <p>Think long-term, act with purpose. Take responsibility for your growth and impact.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Consistency</h3>
+                <p>Growth is daily, not occasional. Show up consistently and build momentum over time.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">
+                    <i class="fas fa-sitemap"></i>
+                </div>
+                <h3>Respect for Structure</h3>
+                <p>Order creates power and freedom. Work within systems that enable creativity to flourish.</p>
+            </div>
+            <div class="value-item">
+                <div class="value-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>Creator-Centered Mission</h3>
+                <p>Every platform exists to uplift creators. Your success is our success.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>A Place Where Ambition Finds Direction</h2>
+            <p>EverGreen Empire is more than a company. It is a full ecosystem created for people with ambition and courage.</p>
+            <p>Whether you are a creator, writer, artist, media voice, or an upcoming executive, EverGreen gives you the environment to grow, earn and evolve.</p>
+            <button class="cta-button">
+                Start Your Journey <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>EVERGREEN EMPIRE</h3>
+                <p>Redefining the global creative economy through innovation, technology, and artistic excellence.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-spotify"></i></a>
+                    <a href="#"><i class="fab fa-apple"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Navigation</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="career-development.html">Career Development</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="cookies.html">Cookies Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="mailto:info@evergreenempireltd.com">info@evergreenempireltd.com</a></li>
+                    <li><a href="career-development.html">Careers</a></li>
+                    <li><a href="contact.html">Partnerships</a></li>
+                    <li><a href="contact.html">Press Inquiries</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 EverGreen Empire Ltd. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const overlay = document.getElementById('overlay');
+
+        function toggleMobileMenu() {
+            mobileMenuBtn.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        }
+
+        function closeMobileMenu() {
+            mobileMenuBtn.classList.remove('active');
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+        overlay.addEventListener('click', closeMobileMenu);
+
+        // Close menu when clicking on links
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        // Initialize GSAP
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Create floating elements
+        const floatingContainer = document.getElementById('floatingElements');
+        for (let i = 0; i < 15; i++) {
+            const element = document.createElement('div');
+            element.classList.add('floating-element');
+            
+            const size = Math.random() * 100 + 20;
+            const left = Math.random() * 100;
+            const animationDuration = Math.random() * 30 + 20;
+            const animationDelay = Math.random() * 5;
+            
+            element.style.width = `${size}px`;
+            element.style.height = `${size}px`;
+            element.style.left = `${left}%`;
+            element.style.animationDuration = `${animationDuration}s`;
+            element.style.animationDelay = `${animationDelay}s`;
+            
+            floatingContainer.appendChild(element);
+        }
+
+        // Create pulse rings
+        for (let i = 0; i < 5; i++) {
+            const ring = document.createElement('div');
+            ring.classList.add('pulse-ring');
+            
+            const size = Math.random() * 200 + 100;
+            const top = Math.random() * 100;
+            const left = Math.random() * 100;
+            const animationDelay = Math.random() * 4;
+            
+            ring.style.width = `${size}px`;
+            ring.style.height = `${size}px`;
+            ring.style.top = `${top}%`;
+            ring.style.left = `${left}%`;
+            ring.style.animationDelay = `${animationDelay}s`;
+            
+            floatingContainer.appendChild(ring);
+        }
+
+        // Career Hero animation
+        gsap.to('.career-hero-title', {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: 'power3.out',
+            delay: 0.5
+        });
+
+        gsap.to('.career-hero-subtitle', {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: 'power3.out',
+            delay: 0.8
+        });
+
+        gsap.to('.cta-button', {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: 'power3.out',
+            delay: 1.1
+        });
+
+        // Section animations
+        gsap.utils.toArray('.section-title h2, .section-title p').forEach(el => {
+            gsap.to(el, {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+        });
+
+        // Intro content animations
+        gsap.to('.intro-content p', {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            stagger: 0.3,
+            scrollTrigger: {
+                trigger: '.intro-content',
+                start: 'top 70%',
+                end: 'bottom 30%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+        // Path cards animations
+        gsap.to('.path-card', {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            stagger: 0.3,
+            scrollTrigger: {
+                trigger: '.paths-grid',
+                start: 'top 80%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+        // Value items animations
+        gsap.to('.value-item', {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            stagger: 0.2,
+            scrollTrigger: {
+                trigger: '.values-grid',
+                start: 'top 80%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+        // CTA animations
+        gsap.to('.cta-content h2', {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            scrollTrigger: {
+                trigger: '.cta-content',
+                start: 'top 80%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+        gsap.to('.cta-content p', {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            stagger: 0.3,
+            scrollTrigger: {
+                trigger: '.cta-content',
+                start: 'top 80%',
+                end: 'bottom 20%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+    </script>
+</body>
+</html>
