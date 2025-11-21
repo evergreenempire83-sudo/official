@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EverGreen Empire
-       a premier music and entertainment ecosystem, redefining the global creative economy. It operates as a fully integrated record label, digital media platform, and creator empowerment network.</title>
+    <title>EverGreen Empire - Premier Music & Entertainment</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -40,6 +39,39 @@
             background-color: var(--white);
             line-height: 1.6;
             font-weight: 400;
+        }
+
+        /* Vimeo Background Video */
+        .vimeo-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .vimeo-background iframe {
+            width: 100vw;
+            height: 56.25vw; /* Given a 16:9 aspect ratio, 9/16*100 = 56.25 */
+            min-height: 100vh;
+            min-width: 177.77vh; /* Given a 16:9 aspect ratio, 16/9*100 = 177.77 */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .vimeo-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            z-index: -1;
         }
 
         /* Header Styles */
@@ -225,16 +257,6 @@
             padding: 0 5%;
             position: relative;
             overflow: hidden;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-        }
-
-        .hero-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
         }
 
         .hero-content {
@@ -269,7 +291,7 @@
         .hero p {
             font-size: 1.4rem;
             margin-bottom: 3rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.9);
             line-height: 1.6;
             font-weight: 400;
             opacity: 0;
@@ -930,18 +952,24 @@
     </style>
 </head>
 <body>
+    <!-- Vimeo Background Video -->
+    <div class="vimeo-background">
+        <iframe src="https://player.vimeo.com/video/1139305668?background=1&autoplay=1&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" allowfullscreen></iframe>
+        <div class="vimeo-overlay"></div>
+    </div>
+
     <!-- Header -->
     <header id="header">
-        <a href="index.html" class="logo">EVERGREEN EMPIRE</a>
+        <a href="/" class="logo">EVERGREEN EMPIRE</a>
         
         <!-- Desktop Navigation -->
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html" class="active">About</a></li>
-                <li><a href="artists.html">Artists</a></li>
-                <li><a href="music.html">Music</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about/">About</a></li>
+                <li><a href="/artists/">Artists</a></li>
+                <li><a href="/music/">Music</a></li>
+                <li><a href="/contact/">Contact</a></li>
             </ul>
         </nav>
 
@@ -956,11 +984,11 @@
     <!-- Mobile Navigation -->
     <div class="mobile-nav" id="mobileNav">
         <ul>
-            <li><a href="index.html" onclick="closeMobileMenu()">Home</a></li>
-            <li><a href="about.html" onclick="closeMobileMenu()" class="active">About</a></li>
-            <li><a href="artist.html" onclick="closeMobileMenu()">Artists</a></li>
-            <li><a href="music.html" onclick="closeMobileMenu()">Music</a></li>
-            <li><a href="contact.html" onclick="closeMobileMenu()">Contact</a></li>
+            <li><a href="/" onclick="closeMobileMenu()">Home</a></li>
+            <li><a href="/about/" onclick="closeMobileMenu()">About</a></li>
+            <li><a href="/artists/" onclick="closeMobileMenu()">Artists</a></li>
+            <li><a href="/music/" onclick="closeMobileMenu()">Music</a></li>
+            <li><a href="/contact/" onclick="closeMobileMenu()">Contact</a></li>
         </ul>
     </div>
 
@@ -969,7 +997,6 @@
 
     <!-- Hero Section with 3D Animation -->
     <section class="hero">
-        <div class="hero-background" id="heroBackground"></div>
         <div class="floating-elements" id="floatingElements"></div>
         <div class="hero-content">
             <h1 class="hero-title">EVERGREEN EMPIRE</h1>
@@ -1059,28 +1086,28 @@
             <div class="footer-column">
                 <h3>Navigation</h3>
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="artists.html">Artists</a></li>
-                    <li><a href="music.html">Music</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about/">About</a></li>
+                    <li><a href="/artists/">Artists</a></li>
+                    <li><a href="/music/">Music</a></li>
+                    <li><a href="/contact/">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3>Legal</h3>
                 <ul>
-                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                    <li><a href="terms-of-service.html">Terms of Service</a></li>
-                    <li><a href="cookies.html">Cookies Policy</a></li>
+                    <li><a href="/privacy-policy/">Privacy Policy</a></li>
+                    <li><a href="/terms-of-service/">Terms of Service</a></li>
+                    <li><a href="/cookies/">Cookies Policy</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h3>Contact</h3>
                 <ul>
                     <li><a href="mailto:info@evergreenempireltd.com">info@evergreenempireltd.com</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Partnerships</a></li>
-                    <li><a href="#">Press Inquiries</a></li>
+                    <li><a href="/careers/">Careers</a></li>
+                    <li><a href="/partnerships/">Partnerships</a></li>
+                    <li><a href="/press/">Press Inquiries</a></li>
                 </ul>
             </div>
         </div>
@@ -1276,7 +1303,4 @@
         });
     </script>
 </body>
-
-</html>
-
-
+    </html>
